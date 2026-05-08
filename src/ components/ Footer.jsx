@@ -1,7 +1,9 @@
-export default function Footer() {
+function Footer() {
   return (
-    <footer className="bg-gray-800 text-white text-center p-4 mt-8">
-      <p>&copy; {new Date().getFullYear()} የድንጋይ ወፍጮ እና የማድረሻ ሲስተም. ሁሉም መብቶች የተጠበቁ ናቸው።</p>
+    <footer className="footer">
+      <p>© 2026 GravelGo. All Rights Reserved.</p>
     </footer>
   );
 }
+
+export default Footer;
