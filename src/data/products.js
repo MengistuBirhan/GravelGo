@@ -1,28 +1,26 @@
-const products = [
+export const products = [
   {
     id: 1,
-    name: "ድንጋይ",
-    price: 2000,
-    image: "/images/stone.jpg",
+    name: "ዜሮ ጠጠር (01 Gravel)",
+    price: 1200,
+    unit: "m3",
+    image: "/images/gravel.jpg",
+    description: "ለኮንክሪት ስራ የሚያገለግል ንጹህ ጠጠር"
   },
   {
     id: 2,
-    name: "አሸዋ",
-    price: 1500,
+    name: "አሸዋ (Pure Sand)",
+    price: 900,
+    unit: "m3",
     image: "/images/sand.jpg",
+    description: "ለግንባታ እና ለፕላስተር የሚሆን"
   },
   {
     id: 3,
-    name: "ሲሚንቶ",
-    price: 1200,
-    image: "/images/cement.jpg",
-  },
-  {
-    id: 4,
-    name: "ጠጠር",
-    price: 1800,
-    image: "/images/gravel.jpg",
-  },
+    name: "ድንጋይ (Foundation Stone)",
+    price: 1500,
+    unit: "Trip",
+    image: "/images/stone.jpg",
+    description: "ለቤት መሰረት የሚሆን ጠንካራ ድንጋይ"
+  }
 ];
-
-export default products;
