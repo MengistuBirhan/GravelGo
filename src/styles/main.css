@@ -1,0 +1,69 @@
+/* ማዕከላዊ የድረገጽ ስታይል */
+:root {
+  --primary-color: #f39c12; /* የግንባታ ቢጫ/ጎልድ */
+  --secondary-color: #2c3e50; /* ጥቁር ሰማያዊ/ግራጫ */
+  --light-bg: #f8f9fa;
+  --dark-text: #333;
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--light-bg);
+  color: var(--dark-text);
+}
+
+/* የካርድ ስታይሎች (Product Card) */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+.product-card {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  transition: transform 0.2s;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+}
+
+/* የቅጽ ስታይሎች (Forms - Login/Register/Order) */
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 600;
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+/* የአዝራር ስታይሎች (Buttons) */
+.btn-primary {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  width: 100%;
+}
+
+.btn-primary:hover {
+  background-color: #d35400;
+}

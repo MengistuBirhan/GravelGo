@@ -1,72 +1,74 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { AuthProvider } from './context/AuthContext';
-import { CartProvider } from './context/CartContext';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 
-// Components
+// 1. መዋቅራዊ አካላት (Layout Components)
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
-import ProtectedRoute from './components/ProtectedRoute';
 
-// Pages
+// 2. አዳዲስ እና የቆዩ ገጾች (Pages)
 import Home from './pages/Home';
 import Catalog from './pages/Catalog';
-import ProductDetails from './pages/ProductDetails';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Cart from './pages/Cart';
-import Checkout from './pages/Checkout';
 import OrderForm from './pages/OrderForm';
+import Checkout from './pages/Checkout';
 import AdminDashboard from './pages/AdminDashboard';
+import Profile from './pages/Profile';
+import PaymentSuccess from './pages/PaymentSuccess';
 import NotFound from './pages/NotFound';
 
-import './App.css';
+// 3. የዳታ እና የሎጊን ቁጥጥር (Context & Hooks)
+import { CartProvider } from './context/CartContext';
+import { useAuth } from './hooks/useAuth';
 
 function App() {
+  const { user, isAuthenticated, logout } = useAuth();
+
   return (
-    <AuthProvider>
-      <CartProvider>
-        <Router>
-          <div className="flex flex-col min-h-screen bg-gray-50 text-gray-900">
-            <Navbar />
-            <main className="flex-grow container mx-auto px-4 py-6">
-              <Routes>
-                {/* ለሁሉም ክፍት የሆኑ ገጾች */}
-                <Route path="/" element={<Home />} />
-                <Route path="/catalog" element={<Catalog />} />
-                <Route path="/product/:id" element={<ProductDetails />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
-                <Route path="/cart" element={<Cart />} />
+    <CartProvider>
+      <Router>
+        <div className="app-container" style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+          
+          {/* የላይኛው ማውጫ (Navbar) - በሁሉም ገጾች ላይ እንዲታይ */}
+          <Navbar user={user} isAuthenticated={isAuthenticated} logout={logout} />
 
-                {/* ሎግይን ላደረጉ ብቻ (Protected) */}
-                <Route path="/checkout" element={
-                  <ProtectedRoute>
-                    <Checkout />
-                  </ProtectedRoute>
-                } />
-                <Route path="/order" element={
-                  <ProtectedRoute>
-                    <OrderForm />
-                  </ProtectedRoute>
-                } />
+          {/* ዋናው የገጾች ይዘት መግቢያ (Main Content Area) */}
+          <main style={{ flex: 1, backgroundColor: '#f8f9fa' }}>
+            <Routes>
+              {/* መደበኛ ገጾች (Public Routes) */}
+              <Route path="/" element={<Home />} />
+              <Route path="/catalog" element={<Catalog />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
 
-                {/* ለአድሚን ብቻ የተፈቀደ (Admin Only) */}
-                <Route path="/admin" element={
-                  <ProtectedRoute adminOnly={true}>
-                    <AdminDashboard />
-                  </ProtectedRoute>
-                } />
+              {/* የካርት እና ትዕዛዝ ገጾች (Cart & Order Routes) */}
+              <Route path="/cart" element={<Cart />} />
+              <Route path="/order-form" element={<OrderForm />} />
+              <Route path="/checkout" element={<Checkout />} />
+              <Route path="/payment-success" element={<PaymentSuccess />} />
 
-                {/* ያልተገኘ ገጽ */}
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </main>
-            <Footer />
-          </div>
-        </Router>
-      </CartProvider>
-    </AuthProvider>
+              {/* የተጠቃሚ ፕሮፋይል ገጽ */}
+              <Route path="/profile" element={<Profile user={user} logout={logout} />} />
+
+              {/* የአድሚን ገጽ (Admin-Only Route) */}
+              {/* ተጠቃሚው አድሚን ካልሆነ በቀጥታ ወደ ሆም (Home) ይመልሰዋል */}
+              <Route 
+                path="/admin" 
+                element={user?.role === 'admin' ? <AdminDashboard /> : <Navigate to="/" replace />} 
+              />
+
+              {/* የሌለ ገጽ ሲመረጥ (404 Not Found) */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </main>
+
+          {/* የግርጌ ማውጫ (Footer) - በሁሉም ገጾች ላይ እንዲታይ */}
+          <Footer />
+          
+        </div>
+      </Router>
+    </CartProvider>
   );
 }
 
