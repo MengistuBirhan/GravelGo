@@ -1,27 +1,30 @@
-import React from 'react';
-import { useAuth } from '../hooks/useAuth';
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const Profile = () => {
-  const { user, logout } = useAuth();
+function Profile() {
+  const navigate = useNavigate();
 
-  if (!user) {
-    return <div style={{ padding: '20px' }}>እባክዎ መጀመሪያ ይግቡ (Login ያድርጉ)።</div>;
-  }
+  useEffect(() => {
+    const loggedIn = localStorage.getItem('gravelgo_logged_in');
+    if (loggedIn !== 'true') {
+      navigate('/login'); // ከ login ሳይገባ ከ profile ገጽ ወደ login
+    }
+  }, [navigate]);
+
+  const handleLogout = () => {
+    localStorage.removeItem('gravelgo_logged_in');
+    navigate('/login'); // logout ከፈተ ወደ login ይመለስ
+  };
 
   return (
-    <div className="profile-container" style={{ padding: '40px', maxWidth: '600px', margin: '0 auto' }}>
-      <h2>የእኔ ፕሮፋይል (My Profile)</h2>
-      <div style={{ background: '#f9f9f9', padding: '20px', borderRadius: '8px', marginTop: '20px' }}>
-        <p><strong>ስም:</strong> {user.name}</p>
-        <p><strong>ኢሜይል:</strong> {user.email}</p>
-        <p><strong>ስልክ ቁጥር:</strong> {user.phone || 'ያልተመዘገበ'}</p>
-        <p><strong>የአካውንት አይነት:</strong> {user.role === 'admin' ? 'አስተዳዳሪ (Admin)' : 'ደንበኛ (Customer)'}</p>
-      </div>
-      <button onClick={logout} style={{ marginTop: '20px', background: '#e74c3c', color: 'white', border: 'none', padding: '10px 20px', borderRadius: '5px', cursor: 'pointer' }}>
-        ውጣ
+    <div style={{ maxWidth: '600px', margin: '50px auto', padding: '30px', border: '1px solid #ccc', borderRadius: '12px' }}>
+      <h2>Profile Page</h2>
+      <p>እንኳን ደህና መጡ!</p>
+      <button onClick={handleLogout} style={{ padding: '10px', backgroundColor: '#ff8c00', color: '#fff', border: 'none', borderRadius: '8px', cursor: 'pointer' }}>
+        Logout
       </button>
     </div>
   );
-};
+}
 
 export default Profile;
